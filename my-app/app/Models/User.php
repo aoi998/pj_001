@@ -12,6 +12,9 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    // テーブル名を指定する（省略可能）
+    protected $table = 'users';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -42,4 +45,42 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function getAllUsers()
+    {
+	    $users = User::all(); // 全てのユーザーを取得する
+	    return $users;
+    }
+    
+    public function getUsersById($id)
+    {
+	    $user = User::find($id); // IDからユーザーを取得する
+	    return $user;
+    }
+    
+    public function createUser($data)
+    {
+	    $user = new User;
+	    $user->name = $data->name;
+	    $user->email = $data->email;
+	    $user->save(); // データベースに保存
+	    return $user;
+    }
+    
+    public function updateUser($id, $data)
+    {
+	    $user = User::find($id); // IDからユーザーを取得する
+	    $user->name = $data->name;
+	    $user->email = $data->email;
+	    $user->password = $data->password;
+	    $user->save(); // データベースに保存
+	    return $user;
+    }
+    
+    public function deleteUser($id)
+    {
+	    $user = User::find($id); // IDからユーザーを取得する
+	    $user->delete(); // データベースから削除
+	    return $user;
+    }
 }
