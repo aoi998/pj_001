@@ -1,0 +1,4 @@
+# Git, GitHub
+/docker-config
+.env
+docker-compose.yml
